@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Stream</title>
+    <title>YouTube Video</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,8 +53,8 @@
         }
         .video-container {
             position: relative;
-            width: 100%;
-            max-width: 560px;
+            width: 90%;
+            max-width: 800px;
             height: 0;
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
             border: 10px solid; /* Frame thickness */
@@ -100,16 +100,35 @@
             color: white;
             z-index: 2;
         }
+        @media (min-width: 1024px) {
+            .video-container {
+                max-width: 800px;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .video-container {
+                max-width: 600px;
+            }
+        }
+        @media (max-width: 767px) {
+            .video-container {
+                max-width: 400px;
+            }
+            .toggle-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="night-sky" id="nightSky"></div>
     <div class="day-sky" id="daySky" style="display: none"></div>
-    <h1>YouTube Stream</h1>
+    <h1>YouTube Video</h1>
     <div class="video-container" id="videoContainer">
         <div class="web-stream-tag">Web Stream</div>
-        <div class="channel-tag">R1 Channel</div>
-        <iframe src="https://www.youtube.com/embed/IaR7njxfqyE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="channel-tag" id="channelTag">Channel Name</div>
+        <iframe id="videoIframe" src="https://www.youtube.com/embed/oui_oGrED3w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <button class="toggle-button" id="toggleButton">Toggle YouTube Landscape Mode</button>
     <button class="toggle-button" id="themeButton">Switch to Light Mode</button>
@@ -119,7 +138,25 @@
         const videoContainer = document.getElementById('videoContainer');
         const toggleButton = document.getElementById('toggleButton');
         const themeButton = document.getElementById('themeButton');
+        const channelTag = document.getElementById('channelTag');
+        const videoIframe = document.getElementById('videoIframe');
+
         let isDarkMode = true;
+
+        // Array of videos with channel names
+        const videos = [
+            { id: 'oui_oGrED3w', channel: 'Current Channel Name' },
+        ];
+
+        // Function to load a video and update the channel name
+        function loadVideo(index) {
+            const video = videos[index];
+            videoIframe.src = `https://www.youtube.com/embed/${video.id}`;
+            channelTag.textContent = video.channel;
+        }
+
+        // Load the first video by default
+        loadVideo(0);
 
         for (let i = 0; i < 100; i++) {
             const star = document.createElement('div');
